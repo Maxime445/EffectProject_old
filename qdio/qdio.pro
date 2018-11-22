@@ -26,10 +26,12 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    devices.cpp \
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    devices.h \
 
 FORMS += \
         mainwindow.ui
@@ -38,3 +40,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    resources/media-play-symbol.png

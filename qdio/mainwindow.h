@@ -6,6 +6,7 @@
 #include <QAudio>
 #include <QAudioInput>
 #include <QAudioOutput>
+#include <QSettings>
 
 namespace Ui {
 class MainWindow;
@@ -18,10 +19,23 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    QSettings settings;
 
 private:
     Ui::MainWindow *ui;
-    void setupDefaultAudioDevices();
+    void setupMenuBar();
+
+    QAction *toggleSettingsButton;
+    QAction *toggleRecordingButton;
+    QAction *toggleEffectsCreatorButton;
+    QAction *toggleEffectsNavigatorButton;
+    void toggleSettings();
+    void toggleRecording();
+    void toggleEffectsCreator();
+    void toggleEffectsNavigator();
+
+
+protected:
 };
 
 #endif // MAINWINDOW_H
