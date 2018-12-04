@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="streamButton">
     <property name="geometry">
      <rect>
       <x>690</x>
@@ -125,7 +125,7 @@
     <property name="title">
      <string>Settings</string>
     </property>
-    <widget class="QComboBox" name="comboBox_2">
+    <widget class="QComboBox" name="outputdevices">
      <property name="geometry">
       <rect>
        <x>10</x>

@@ -28,10 +28,12 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     devices.cpp \
+    effectbuffer.cpp
 
 HEADERS += \
         mainwindow.h \
     devices.h \
+    effectbuffer.h
 
 FORMS += \
         mainwindow.ui

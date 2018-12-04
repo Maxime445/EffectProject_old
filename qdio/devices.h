@@ -5,19 +5,31 @@
 #include <QAudioDeviceInfo>
 #include <QSettings>
 
-class devices
+#define NUM_CIRCLE_BUFFER_ELEMENTS 50
+
+class Devices
 {
 public:
-    devices();
+    Devices();
     void setInputDevice(QAudioDeviceInfo device);
     void setOutputDevice(QAudioDeviceInfo device);
+    QList<QAudioDeviceInfo>* getInputDevices();
+    QList<QAudioDeviceInfo>* getOutputDevices();
+    QAudioDeviceInfo getOutputDevice();
+    QAudioDeviceInfo getInputDevice();
+    QAudioFormat getInputFormat();
+    QAudioFormat getOutputFormat();
 
 private:
-    QList<QAudioDeviceInfo> InputDevices;
-    QList<QAudioDeviceInfo> OutputDevices;
-    QAudioDeviceInfo Output;
-    QAudioDeviceInfo Input;
-    QSettings settings;
+    QList<QAudioDeviceInfo> inputDevices;
+    QList<QAudioDeviceInfo> outputDevices;
+    QAudioDeviceInfo output;
+    QAudioDeviceInfo input;
+    QAudioFormat inputFormat;
+    QAudioFormat outputFormat;
+    //QSettings settings;
+
+
 
 };
 
