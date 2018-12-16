@@ -141,7 +141,8 @@ void MainWindow::on_streamButton_clicked()
     if (!input.isNull() && !output.isNull()){
         audioIn->reset();
         audioOut->reset();
-        audioOut->start(audioIn->start());
+        audioIn->start(&buffer);
+        audioOut->start(&buffer);
 
     } else {
         qDebug() << "Input or output not set!";
@@ -171,5 +172,7 @@ void MainWindow::testCode()
     format.setSampleSize(QAudioFormat::UnSignedInt);
 
     setupDevicesSelect();
+
+    buffer.open(QIODevice::ReadWrite);
 }
 

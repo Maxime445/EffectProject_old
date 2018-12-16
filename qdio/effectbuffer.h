@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QIODevice>
+#include <QDebug>
+#include <QtMath>
 
 class EffectBuffer : public QIODevice
 {
@@ -18,8 +20,19 @@ private:
     qint64 bufferCurrent;
 
     const char* readPointer;
-    char* writePointer;
+    int readPointerElement;
 
+    int validElementStart;
+    int validElementEnd;
+    int validLoop; // 1 if validStart comes after validEnd because of loop.
+
+    char* writePointer;
+    int writePointerElement;
+
+//#define TESTMODE 1
+#ifdef TESTMODE
+    QByteArray testBuffer;
+#endif
 
 public slots:
 };
