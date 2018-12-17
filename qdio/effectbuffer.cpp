@@ -15,10 +15,8 @@ EffectBuffer::EffectBuffer()
 #endif
 
 
-    readPointer = buffer.data();
-    writePointer = buffer.data();
-    writePointerElement = 0;
-    readPointerElement = 0;
+    validElementStart = 0;
+    validElementEnd = 0;
     /*
     qDebug() << "buffer data as read by readPointer: " << *readPointer;
 
@@ -30,74 +28,70 @@ EffectBuffer::EffectBuffer()
 
 qint64 EffectBuffer::readData(char* data, qint64 maxlen)
 {
-    if (maxlen >= (buffer.size() - readPointerElement)){
-        //read, with cutoff and circular loop.
-        size_t overflow = (maxlen+readPointerElement) - buffer.size();
-        memcpy(data, readPointer, (buffer.size() - readPointerElement));
-        readPointer = buffer.data();
-        mempcpy(data, readPointer, overflow);
-        readPointer = &(readPointer[overflow]);
-        readPointerElement = overflow;
+    //WARNING check whether readData and writeData are safe to access and modify common variables.
+    if (maxlen >= (buffer.size() - validElementStart)){
+        // Cutoff and circular loop scenario
+        qint64 readEnd = qMin(validElementEnd, validElementStart + maxlen - buffer.size());
+        qint64 readStart = validElementStart;
+        qint64 length1 = buffer.size() - readStart;
+        qint64 length2 = readEnd;
+
+        memcpy(data, buffer.constData() + readStart, length1); //WARNING is this reference syntax ok?
+        memcpy(data, buffer.constData(), length2);
+
+        validElementStart = length2;
+        //validElementEnd is either equal to validElementStart, or greater and thus untouched. Stays the same in both cases.
+
+        return length1 + length2;
     } else {
-        //read normally.
-        memcpy(data, readPointer, maxlen);
-        readPointer = &(readPointer[maxlen]);
-        readPointerElement += maxlen;
-        qDebug() << "Pointer end at " << readPointerElement;
+        // Normal read scenario
+        qint64 readEnd = qMin(validElementEnd, validElementStart + maxlen);
+        qint64 readStart = validElementStart; // Should really be equal to validElementStart.
+        qint64 length = readEnd - readStart;
+
+        memcpy(data, buffer.constData() + readStart, length);
+
+        validElementStart = readStart + length;
+        //validElementEnd is either equal to validElementStart, or greater and thus untouched. Stays the same in both cases.
+
+        return length;
     }
-    return maxlen;
 }
 
 
 
 #ifdef TESTMODE
-qint64 EffectBuffer::writeData(const char* data, qint64 maxlen)
-{
-
-    //WARNING: "data" simply replaced by "testBuffer". data may not always be the same, while testBuffer will be.
-    //WARNING: no "written to" check?
-    if ((int)maxlen >= (buffer.size() - writePointerElement)){
-        //write with cutoff and circular loop
-        size_t overflow = (maxlen + writePointerElement) - buffer.size();
-        memcpy(writePointer, testBuffer, (buffer.size() - writePointerElement));
-        writePointer = buffer.data();
-        mempcpy(writePointer, testBuffer, overflow);
-        writePointer = &(writePointer[overflow]);
-        validElementStart = writePointerElement;
-        writePointerElement = overflow;
-        validElementEnd = writePointerElement;
-    } else {
-        memcpy(writePointer, testBuffer, maxlen);
-        writePointer = &(writePointer[maxlen]);
-        validElementStart = writePointerElement;
-        writePointerElement += maxlen;
-        validElementEnd = writePointerElement;
-
-    }
-    return maxlen;
-}
 #else
 qint64 EffectBuffer::writeData(const char* data, qint64 maxlen)
 {
-    //WARNING: no "written to" check?
-    if ((int)maxlen >= (buffer.size() - writePointerElement)){
-        //write with cutoff and circular loop
-        size_t overflow = (maxlen + writePointerElement) - buffer.size();
-        memcpy(writePointer, data, (buffer.size() - writePointerElement));
-        writePointer = buffer.data();
-        mempcpy(writePointer, data, overflow);
-        writePointer = &(writePointer[overflow]);
-        validElementStart = writePointerElement;
-        writePointerElement = overflow;
-        validElementEnd = writePointerElement;
-    } else {
-        memcpy(writePointer, data, maxlen);
-        writePointer = &(writePointer[maxlen]);
-        validElementStart = writePointerElement;
-        writePointerElement += maxlen;
-        validElementEnd = writePointerElement;
+    //WARNING - add check to see if valid, unread data is overwritten. This hopefully should not be the case.
+    if ((int)maxlen >= (buffer.size() - validElementEnd)){
+        // Cutoff and loop scenario
+        qint64 writeStart = validElementEnd;
+        qint64 writeEnd = writeStart + maxlen - buffer.size();
+        if (writeEnd >= validElementStart) qWarning() << "Warning: Valid data has been overwritten!";
+        qint64 length1 = buffer.size() - writeStart;
+        qint64 length2 = writeEnd;
 
+        memcpy(buffer.data() + writeStart, data, length1);
+        memcpy(buffer.data(), data + length1, length2);
+
+        validElementEnd = writeEnd;
+
+        return length1 + length2;
+
+    } else {
+        // Normal write scenario
+        qint64 writeStart = validElementEnd;
+        qint64 writeEnd = writeStart + maxlen;
+        if (writeEnd >= validElementStart) qWarning() << "Warning: Valid data has been overwritten!";
+        qint64 length = writeEnd - writeStart;
+
+        memcpy(buffer.data() + writeStart, data, length);
+
+        validElementEnd = writeEnd;
+
+        return maxlen;
     }
-    return maxlen;
 }
 #endif

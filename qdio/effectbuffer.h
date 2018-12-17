@@ -19,15 +19,8 @@ private:
     qint64 bufferUsed;
     qint64 bufferCurrent;
 
-    const char* readPointer;
-    int readPointerElement;
-
-    int validElementStart;
-    int validElementEnd;
-    int validLoop; // 1 if validStart comes after validEnd because of loop.
-
-    char* writePointer;
-    int writePointerElement;
+    qint64 validElementStart;
+    qint64 validElementEnd;
 
 //#define TESTMODE 1
 #ifdef TESTMODE
