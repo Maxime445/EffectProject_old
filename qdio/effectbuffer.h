@@ -22,12 +22,21 @@ private:
     qint64 validElementStart;
     qint64 validElementEnd;
 
+    void applyEffects(qint64 bytes);
+
+//Effects
+    static void multiplyF(int x);
+    static void (*multiply) (int x);
+    static void maxF(int x);
+    static void (*max) (int x);
+
 //#define TESTMODE 1
 #ifdef TESTMODE
     QByteArray testBuffer;
 #endif
 
 public slots:
+    void bytesWritten(qint64 bytes);
 };
 
 #endif // EFFECTBUFFER_H
