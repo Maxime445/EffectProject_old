@@ -55,6 +55,7 @@ private:
     QAudioInput* audioIn;
     QAudioOutput* audioOut;
     QAudioFormat format;
+    //Should not only have one.
     EffectBuffer buffer;
 
 protected:

@@ -147,17 +147,8 @@ void MainWindow::on_streamButton_clicked()
     } else {
         qDebug() << "Input or output not set!";
     }
-
-
-    /*
-    //TODO add check to make sure everything is alright.
-
-    audioIn.start(&buffer);
-    audioOut.start(&buffer);
-
-
     ui->streamButton->setFlat(true);
-    */
+
 }
 
 
