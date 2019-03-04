@@ -52,11 +52,15 @@ private:
     void toggleEffectsCreator();
     void toggleEffectsNavigator();
 
+    int outSelectIndex;
+    int inSelectIndex;
+
     QAudioInput* audioIn;
     QAudioOutput* audioOut;
     QAudioFormat format;
     //Should not only have one.
     EffectBuffer buffer;
+
 
 protected:
 private slots:

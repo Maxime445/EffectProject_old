@@ -18,27 +18,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setupMenuBar();
 
-#if DEBUG == 1
-    /*
-     * TEST CODE
-     */
+
     qDebug() << "Running test code!";
     testCode();
-#else
 
-    /*
-     * IMPLEMENTATION CODE
-     */
-
-    //Set Up Audio
-    Devices devices;
-
-    setupAudio();
-    setupBuffer();
-
-    setupDevicesSelect();
-
-#endif
 }
 
 MainWindow::~MainWindow()
@@ -121,33 +104,37 @@ void MainWindow::toggleEffectsNavigator(){
 
 void MainWindow::on_inputdevices_currentIndexChanged(int index)
 {
+    inSelectIndex = index;
+    /*
     input = QAudioDeviceInfo(QAudioDeviceInfo::availableDevices(QAudio::AudioInput).at(index));
-
     QAudioFormat inputFormat = input.nearestFormat(format);
     audioIn = new QAudioInput(input, inputFormat, this);
-    qDebug() << "Input Device changed. Now set to: " << input.deviceName();
+    qDebug() << "Input Device changed. Now set to: " << input.deviceName();*/
 }
 
 void MainWindow::on_outputdevices_currentIndexChanged(int index)
 {
+    outSelectIndex = index;
+    /*
     output = QAudioDeviceInfo(QAudioDeviceInfo::availableDevices(QAudio::AudioOutput).at(index));
     QAudioFormat outputFormat = output.nearestFormat(format);
     audioOut = new QAudioOutput(output, outputFormat, this);
-    qDebug() << "Output Device changed. Now set to: " << output.deviceName();
+    qDebug() << "Output Device changed. Now set to: " << output.deviceName();*/
 }
 
 void MainWindow::on_streamButton_clicked()
 {
-    if (!input.isNull() && !output.isNull()){
-        audioIn->reset();
-        audioOut->reset();
-        audioIn->start(&buffer);
-        audioOut->start(&buffer);
 
-    } else {
-        qDebug() << "Input or output not set!";
-    }
-    ui->streamButton->setFlat(true);
+    input = QAudioDeviceInfo(QAudioDeviceInfo::availableDevices(QAudio::AudioInput).at(inSelectIndex));
+    output = QAudioDeviceInfo(QAudioDeviceInfo::availableDevices(QAudio::AudioOutput).at(outSelectIndex));
+
+    audioIn = new QAudioInput(input, input.nearestFormat(format), this);
+    audioOut = new QAudioOutput(output, output.nearestFormat(format), this);
+
+    audioIn->reset();
+    audioOut->reset();
+    audioIn->start(&buffer);
+    audioOut->start(&buffer);
 
 }
 

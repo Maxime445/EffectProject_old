@@ -10,14 +10,15 @@ class EffectBuffer : public QIODevice
 {
 public:
     EffectBuffer();
-    qint64 readData(char* data, qint64 maxlen);
-    qint64 writeData(const char* data, qint64 maxlen);
+    qint64 readData(char* data, qint64 maxlen) override;
+    qint64 writeData(const char* data, qint64 maxlen) override;
 
 
 private:
     //DEBUG buffer2 is old buffer. Implemented as a circular buffer. buffer implemented using append() and chopped().
     QByteArray buffer;
     QByteArray buffer2;
+    QByteArray readBuffer;
     qint64 bufferUsed;
     qint64 bufferCurrent;
 

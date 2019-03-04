@@ -17,25 +17,29 @@ EffectBuffer::EffectBuffer()
 
 qint64 EffectBuffer::readData(char* data, qint64 maxlen){
     int readLength = qMin(static_cast<int>(maxlen), buffer.length());
-
+    qDebug() << "Maxlen: " << maxlen << ", readLength: " << readLength;
     //  can chopped data be const? linear time -> constant time (?)
-    QByteArray readData(buffer.chopped(readLength));
-    data = readData.data();
+    readBuffer = buffer.left(readLength);
+    memcpy(data, readBuffer.data(), static_cast<size_t>(readLength));
+    buffer.remove(0, readLength);
 
+    return readLength;
 }
 
 qint64 EffectBuffer::writeData(const char* data, qint64 maxlen){
     if(maxlen > (buffer.capacity() + buffer.size())){
         //  Increase buffer capacity to new maximum.
-        int newCap = buffer.size() + static_cast<int>(maxlen);
+        qint64 newCap = buffer.size() + maxlen;
         qDebug() << "Extending size to: " << newCap;
         buffer.reserve(newCap);
     }
 
-    buffer.append(data);
+    buffer.append(data, static_cast<int>(maxlen));
+    //qDebug() << buffer.contains(data);
+    return maxlen;
 }
-
 #ifdef circularbuffer
+
 qint64 EffectBuffer::readData(char* data, qint64 maxlen)
 {
     //WARNING check whether readData and writeData are safe to access and modify common variables.
@@ -77,7 +81,6 @@ qint64 EffectBuffer::readData(char* data, qint64 maxlen)
         return length;
     }
 }
-
 
 
 qint64 EffectBuffer::writeData(const char* data, qint64 maxlen)
