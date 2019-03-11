@@ -28,12 +28,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     devices.cpp \
-    effectbuffer.cpp
+    effectbuffer.cpp \
+    movable.cpp
 
 HEADERS += \
         mainwindow.h \
     devices.h \
-    effectbuffer.h
+    effectbuffer.h \
+    movable.h
 
 FORMS += \
         mainwindow.ui

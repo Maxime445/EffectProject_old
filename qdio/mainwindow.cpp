@@ -2,22 +2,40 @@
 #include "ui_mainwindow.h"
 
 #include <QDebug>
+#include <QDesktopWidget>
 
-
-
+/*
+ *  TODO:
+ * -Connections between effects
+ * -Create Fundamental operations effects
+ * -Combine Effects into more effects
+ * -Input/Output audio, etc
+ * -Buffer implementation/audio implementation
+ * -Tools, etc. E.G: Recording, Recordings
+*/
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    QCoreApplication::setApplicationName("qdio");
+    QCoreApplication::setApplicationName("QDIO Effects Creator");
     QCoreApplication::setOrganizationName("QDIO MUSIC TECHNOLOGIES LTD.");
     //QCoreApplication::setOrganizationDomain()
 
     //Set up UI
     ui->setupUi(this);
+
     setupMenuBar();
 
+
+
+
+    Movable* testMovable = new Movable(this);
+    //TODO work on proper layout of these custom widgets.
+
+    this->layout()->addWidget(testMovable);
+    testMovable->setObjectName("testMovable");
+    testMovable->show();
 
     qDebug() << "Running test code!";
     testCode();
@@ -154,3 +172,24 @@ void MainWindow::testCode()
     buffer.open(QIODevice::ReadWrite);
 }
 
+void MainWindow::mousePressEvent(QMouseEvent *event) {
+    pressedChild = childAt(event->pos());
+
+    if (pressedChild == this->centralWidget()) {
+        pressedChild = 0;
+        qDebug() << "Pressed central widget";
+        //CHANGEME this does not work. Selection of the mainwindow crashes the program when moved/released.
+        event->setAccepted(false);
+        return;
+    }
+    qDebug() << "Mouse press: " << pressedChild->objectName();
+
+};
+
+void MainWindow::mouseMoveEvent(QMouseEvent* event) {
+    pressedChild->move(event->pos());
+}
+void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
+    qDebug() << "Mouse release MainWindow";
+    pressedChild = 0;
+};

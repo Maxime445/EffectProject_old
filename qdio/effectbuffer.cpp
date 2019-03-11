@@ -19,8 +19,8 @@ qint64 EffectBuffer::readData(char* data, qint64 maxlen){
     int readLength = qMin(static_cast<int>(maxlen), buffer.length());
     qDebug() << "Maxlen: " << maxlen << ", readLength: " << readLength;
     //  can chopped data be const? linear time -> constant time (?)
-    readBuffer = buffer.left(readLength);
-    memcpy(data, readBuffer.data(), static_cast<size_t>(readLength));
+
+    memcpy(data, buffer.data(), static_cast<size_t>(readLength));
     buffer.remove(0, readLength);
 
     return readLength;

@@ -8,9 +8,12 @@
 #include <QAudioInput>
 #include <QAudioOutput>
 #include <QSettings>
+#include <QMouseEvent>
+
 
 #include "devices.h"
 #include "effectbuffer.h"
+#include "movable.h"
 
 #define DEBUG 1
 
@@ -25,7 +28,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ~MainWindow() override;
     QSettings settings;
 
 private:
@@ -61,8 +64,14 @@ private:
     //Should not only have one.
     EffectBuffer buffer;
 
+    QWidget* pressedChild = 0;
 
 protected:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+
+
 private slots:
     void on_inputdevices_currentIndexChanged(int index);
     void on_streamButton_clicked();
