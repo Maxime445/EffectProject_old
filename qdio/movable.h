@@ -10,6 +10,7 @@
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QEvent>
+#include <link.h>
 
 class Movable : public QWidget
 {
@@ -22,13 +23,14 @@ protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
-    // dragEnterEvent(QDragEnterEvent *event) override;
-    //void dragMoveEvent(QDragMoveEvent *event) override;
-    //void dropEvent(QDropEvent *event) override;
+
+
 
 private:
     bool dragging = false;
     QPoint dragStartPosition;
+    QList<Link> links;
+
 };
 
 #endif // MOVABLE_H

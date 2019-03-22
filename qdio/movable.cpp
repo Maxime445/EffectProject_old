@@ -22,9 +22,9 @@ void Movable::mousePressEvent(QMouseEvent* event){
         dragStartPosition = event->pos();
         dragging = true;
         qDebug() << "Started drag at: " << dragStartPosition;
-
     }
 }
+
 
 
 void Movable::mouseMoveEvent(QMouseEvent* event){
@@ -38,5 +38,4 @@ void Movable::mouseMoveEvent(QMouseEvent* event){
 void Movable::mouseReleaseEvent(QMouseEvent* event){
     qDebug() << "Mouse release Movable";
 }
-
 
