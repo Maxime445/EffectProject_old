@@ -14,6 +14,7 @@
 #include "devices.h"
 #include "effectbuffer.h"
 #include "movable.h"
+#include "outputtile.h"
 
 #define DEBUG 1
 
@@ -66,6 +67,8 @@ private:
 
     QWidget* pressedChild = 0;
 
+
+
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -76,6 +79,7 @@ private slots:
     void on_inputdevices_currentIndexChanged(int index);
     void on_streamButton_clicked();
     void on_outputdevices_currentIndexChanged(int index);
+    void on_pushButton_pressed();
 };
 
 #endif // MAINWINDOW_H

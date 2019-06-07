@@ -6,36 +6,29 @@
 
 Movable::Movable(QWidget *parentWindow) : QWidget(parentWindow)
 {
-    QLabel* test = new QLabel("test", this);
+    //Creates movable of default size to start with.
+    qDebug() << "Movable initialisation";
 
-    parentWindow->layout()->addWidget(test);
-    test->setAlignment(Qt::AlignmentFlag::AlignHCenter | Qt::AlignmentFlag::AlignVCenter);
-    test->show();
+
+    QPoint pt(100,100);
+    QSize size(100, 200);
+    QRect rect(pt, size);
+
+    movableBox = new QGroupBox("Test", parentWindow);
+    movableBox->setObjectName("MovableBox");
+    movableBox->setTitle("Movable");
+    movableBox->setGeometry(rect);
+
+    layout = new QGridLayout(this->window());
+    movableBox->setLayout(layout);
+
+    movableBox->show();
 
     setEnabled(true);
 }
 
-void Movable::mousePressEvent(QMouseEvent* event){
-    //event->setAccepted(true);
-    qDebug() << "Mouse press Movable";
-    if (event->button() == Qt::LeftButton){
-        dragStartPosition = event->pos();
-        dragging = true;
-        qDebug() << "Started drag at: " << dragStartPosition;
-    }
-}
 
-
-
-void Movable::mouseMoveEvent(QMouseEvent* event){
-    qDebug() << "Mouse move Movable";
-    if (dragging){
-        QWidget* parentWindow = this->parentWidget();
-        qDebug() << parentWindow->windowIconText();
-    }
-}
-
-void Movable::mouseReleaseEvent(QMouseEvent* event){
-    qDebug() << "Mouse release Movable";
+void Movable::updateLayout(){
+    movableBox->setLayout(layout);
 }
 

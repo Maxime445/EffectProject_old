@@ -30,14 +30,16 @@ SOURCES += \
     devices.cpp \
     effectbuffer.cpp \
     movable.cpp \
-    link.cpp
+    link.cpp \
+    outputtile.cpp
 
 HEADERS += \
         mainwindow.h \
     devices.h \
     effectbuffer.h \
     movable.h \
-    link.h
+    link.h \
+    outputtile.h
 
 FORMS += \
         mainwindow.ui

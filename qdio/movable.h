@@ -11,22 +11,26 @@
 #include <QHBoxLayout>
 #include <QEvent>
 #include <link.h>
+#include <QLabel>
+#include <QGroupBox>
+#include <QGridLayout>
 
 class Movable : public QWidget
 {
     Q_OBJECT
 
 public:
-    Movable(QWidget* parentWindow = 0);
+    Movable(QWidget* parentWindow = nullptr);
 
 protected:
-    void mousePressEvent(QMouseEvent* event) override;
-    void mouseMoveEvent(QMouseEvent* event) override;
-    void mouseReleaseEvent(QMouseEvent* event) override;
+    void updateLayout();
 
+    QGroupBox* movableBox;
+    QGridLayout* layout;
 
 
 private:
+
     bool dragging = false;
     QPoint dragStartPosition;
     QList<Link> links;

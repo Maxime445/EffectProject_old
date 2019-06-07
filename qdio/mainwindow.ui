@@ -112,6 +112,19 @@
     <property name="title">
      <string>Effect Navigator</string>
     </property>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>80</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Create Output</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="settings">
     <property name="geometry">

@@ -29,14 +29,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-
+/*
     Movable* testMovable = new Movable(this);
     //TODO work on proper layout of these custom widgets.
 
     this->layout()->addWidget(testMovable);
     testMovable->setObjectName("testMovable");
     testMovable->show();
-
+*/
     qDebug() << "Running test code!";
     testCode();
 
@@ -156,8 +156,6 @@ void MainWindow::on_streamButton_clicked()
 
 }
 
-
-
 void MainWindow::testCode()
 {
     format.setSampleRate(44000);
@@ -193,3 +191,16 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
     qDebug() << "Mouse release MainWindow";
     pressedChild = 0;
 };
+
+void MainWindow::on_pushButton_pressed()
+{
+    // Create new output tile
+    OutputTile *outputTile = new OutputTile(this->centralWidget());
+
+    //Probably want to move "adding to central widget" and placement actions here rather than in the class.
+
+
+    outputTile->updateList(QAudioDeviceInfo::availableDevices(QAudio::AudioInput));
+
+
+}
