@@ -31,7 +31,8 @@ SOURCES += \
     effectbuffer.cpp \
     movable.cpp \
     link.cpp \
-    outputtile.cpp
+    outputtile.cpp \
+    inputtile.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,7 +40,8 @@ HEADERS += \
     effectbuffer.h \
     movable.h \
     link.h \
-    outputtile.h
+    outputtile.h \
+    inputtile.h
 
 FORMS += \
         mainwindow.ui

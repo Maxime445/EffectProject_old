@@ -15,6 +15,7 @@
 #include "effectbuffer.h"
 #include "movable.h"
 #include "outputtile.h"
+#include "inputtile.h"
 
 #define DEBUG 1
 
@@ -73,6 +74,10 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    bool dragAndDroppable(QMouseEvent *event);
+    bool dragging = false;
+
+    QPoint pressedLocation;
 
 
 private slots:
@@ -80,6 +85,7 @@ private slots:
     void on_streamButton_clicked();
     void on_outputdevices_currentIndexChanged(int index);
     void on_pushButton_pressed();
+    void on_pushButton_2_pressed();
 };
 
 #endif // MAINWINDOW_H

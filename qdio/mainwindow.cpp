@@ -171,26 +171,38 @@ void MainWindow::testCode()
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
-    pressedChild = childAt(event->pos());
-
-    if (pressedChild == this->centralWidget()) {
-        pressedChild = 0;
-        qDebug() << "Pressed central widget";
-        //CHANGEME this does not work. Selection of the mainwindow crashes the program when moved/released.
-        event->setAccepted(false);
-        return;
+    if (dragAndDroppable(event)) {
+        pressedChild = childAt(event->pos()); //TODO add filter for selected child widget
+        pressedLocation = pressedChild->pos() - event->pos();
+        qDebug() << "Mouse press: " << pressedChild->objectName();
     }
-    qDebug() << "Mouse press: " << pressedChild->objectName();
-
 };
 
 void MainWindow::mouseMoveEvent(QMouseEvent* event) {
-    pressedChild->move(event->pos());
+    if (dragging) pressedChild->move(event->pos() + pressedLocation);
 }
 void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
-    qDebug() << "Mouse release MainWindow";
     pressedChild = 0;
-};
+    pressedLocation = QPoint(0,0);
+    dragging = false;
+}
+
+bool MainWindow::dragAndDroppable(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton){
+        if (childAt(event->pos())->objectName() == "centralWidget"){
+            qDebug() << "Central Widget selected.";
+            dragging = false;
+            return 0;
+        }
+
+        dragging = true;
+        return 1;
+    } else {
+        dragging = false;
+        return 0;
+    }
+}
 
 void MainWindow::on_pushButton_pressed()
 {
@@ -203,4 +215,17 @@ void MainWindow::on_pushButton_pressed()
     outputTile->updateList(QAudioDeviceInfo::availableDevices(QAudio::AudioInput));
 
 
+}
+
+
+
+void MainWindow::on_pushButton_2_pressed()
+{
+    //Code replication from pushButton 1. (OutputTile)
+    // Create new output tile
+    InputTile *inputTile = new InputTile(this->centralWidget());
+
+    //Probably want to move "adding to central widget" and placement actions here rather than in the class.
+
+    inputTile->updateList(QAudioDeviceInfo::availableDevices(QAudio::AudioInput));
 }

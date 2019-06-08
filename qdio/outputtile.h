@@ -19,6 +19,9 @@ public:
 
 private:
      QList<QAudioDeviceInfo> list;
+
+private slots:
+    //void on_outputSelect_currentIndexChanged(int index);
 };
 
 #endif // OUTPUTTILE_H

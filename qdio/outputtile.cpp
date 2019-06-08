@@ -6,7 +6,7 @@ OutputTile::OutputTile(QWidget *parentWindow) : Movable(parentWindow)
     qDebug() << "Output tile initialisation";
 
     outputSelect = new QComboBox(parentWindow);
-    test = new QLabel("test", parentWindow);
+    test = new QLabel("out", parentWindow);
     layout->addWidget(test);
     layout->addWidget(outputSelect);
     QList<QAudioDeviceInfo> list;
@@ -17,6 +17,7 @@ void OutputTile::updateList(const QList<QAudioDeviceInfo> newList){
     if (!list.isEmpty()){
         list.clear();
     }
+
 
 
     QList<QAudioDeviceInfo>::const_iterator i;

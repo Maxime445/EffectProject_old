@@ -32,7 +32,7 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>251</width>
+      <width>461</width>
       <height>81</height>
      </rect>
     </property>
@@ -99,19 +99,6 @@
     <property name="title">
      <string>Effect Creator Toolbox</string>
     </property>
-   </widget>
-   <widget class="QGroupBox" name="navigator">
-    <property name="geometry">
-     <rect>
-      <x>620</x>
-      <y>60</y>
-      <width>151</width>
-      <height>301</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Effect Navigator</string>
-    </property>
     <widget class="QPushButton" name="pushButton">
      <property name="geometry">
       <rect>
@@ -125,6 +112,32 @@
       <string>Create Output</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>80</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Create Input</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="navigator">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>60</y>
+      <width>151</width>
+      <height>301</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Effect Navigator</string>
+    </property>
    </widget>
    <widget class="QGroupBox" name="settings">
     <property name="geometry">

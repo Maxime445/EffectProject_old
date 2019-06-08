@@ -130,7 +130,7 @@ void EffectBuffer::applyEffects(qint64 bytes){
     //loop through bytes
     while (applied <= bytes){
         //loop through effects
-        buffer2[applied] = buffer2.at(applied) * 2;
+        buffer2[applied] = buffer2.at(applied);
         applied++;
     }
 }
