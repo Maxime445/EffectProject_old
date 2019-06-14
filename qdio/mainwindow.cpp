@@ -4,32 +4,22 @@
 #include <QDebug>
 #include <QDesktopWidget>
 
-/*
- *  TODO:
- * -Connections between effects
- * -Create Fundamental operations effects
- * -Combine Effects into more effects
- * -Input/Output audio, etc
- * -Buffer implementation/audio implementation
- * -Tools, etc. E.G: Recording, Recordings
-*/
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     QCoreApplication::setApplicationName("QDIO Effects Creator");
     QCoreApplication::setOrganizationName("QDIO MUSIC TECHNOLOGIES LTD.");
-    //QCoreApplication::setOrganizationDomain()
 
-    //Set up UI
+    //Set up UI command
     ui->setupUi(this);
-
+    //Set up "Menu Bar" - buttons for windows
     setupMenuBar();
 
 
 
-/*
+/*  //"Movable" test code... can delete.
+ *
     Movable* testMovable = new Movable(this);
     //TODO work on proper layout of these custom widgets.
 
@@ -37,7 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     testMovable->setObjectName("testMovable");
     testMovable->show();
 */
-    qDebug() << "Running test code!";
+
+    //"Test Code" function -
     testCode();
 
 }
@@ -78,6 +69,11 @@ void MainWindow::setupMenuBar(){
     connect(toggleEffectsNavigatorButton, &QAction::triggered, this, &MainWindow::toggleEffectsNavigator);
 }
 
+///
+/// \brief MainWindow::setupDevicesSelect
+/// Create two list-menus, for input and output, and populate them with
+/// QAudioDeviceInfo::availableDevices.
+/// To be replaced with more complex input/output system.
 void MainWindow::setupDevicesSelect(){
     QList<QAudioDeviceInfo> inList(QAudioDeviceInfo::availableDevices(QAudio::AudioInput));
     QList<QAudioDeviceInfo>::iterator i;
@@ -91,6 +87,10 @@ void MainWindow::setupDevicesSelect(){
     }
 }
 
+
+///
+/// \brief MainWindow::toggleSettings
+/// Toggle "Settings" panel appearance
 void MainWindow::toggleSettings(){
     if(ui->settings->isVisible()){
         ui->settings->hide();
@@ -98,6 +98,11 @@ void MainWindow::toggleSettings(){
         ui->settings->show();
     }
 }
+
+
+///
+/// \brief MainWindow::toggleRecording
+/// Toggle "Recording" panel appearance
 void MainWindow::toggleRecording(){
     if(ui->recording->isVisible()){
         ui->recording->hide();
@@ -105,6 +110,11 @@ void MainWindow::toggleRecording(){
         ui->recording->show();
     }
 }
+
+
+///
+/// \brief MainWindow::toggleEffectsCreator
+/// Toggle "Effects Creator" panel appearance
 void MainWindow::toggleEffectsCreator(){
     if(ui->creator->isVisible()){
         ui->creator->hide();
@@ -112,6 +122,10 @@ void MainWindow::toggleEffectsCreator(){
         ui->creator->show();
     }
 }
+
+///
+/// \brief MainWindow::toggleEffectsNavigator
+/// Toggle "Effects Navigator" panel appearance
 void MainWindow::toggleEffectsNavigator(){
     if(ui->navigator->isVisible()){
         ui->navigator->hide();
@@ -158,6 +172,7 @@ void MainWindow::on_streamButton_clicked()
 
 void MainWindow::testCode()
 {
+    // Configure default sample format
     format.setSampleRate(44000);
     format.setChannelCount(1);
     format.setSampleSize(1);
@@ -165,6 +180,7 @@ void MainWindow::testCode()
     format.setByteOrder(QAudioFormat::LittleEndian);
     format.setSampleSize(QAudioFormat::UnSignedInt);
 
+    // "Set up devices select
     setupDevicesSelect();
 
     buffer.open(QIODevice::ReadWrite);
@@ -178,15 +194,25 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
     }
 };
 
+
 void MainWindow::mouseMoveEvent(QMouseEvent* event) {
     if (dragging) pressedChild->move(event->pos() + pressedLocation);
 }
+
+
 void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
     pressedChild = 0;
     pressedLocation = QPoint(0,0);
     dragging = false;
 }
 
+///
+/// \brief MainWindow::dragAndDroppable
+/// \param event QMouseEvent passed from mousePress, mouseMove, mouseRelease, etc.
+/// \return whether or not the position of mouse should incur a drag and drop
+/// Checks the widget underneath mouse cursor position.
+/// Incomplete - should add filters for all types
+///
 bool MainWindow::dragAndDroppable(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton){
@@ -204,17 +230,31 @@ bool MainWindow::dragAndDroppable(QMouseEvent *event)
     }
 }
 
+///
+/// \brief MainWindow::effectAdded
+/// Slot for added "movable" effect created. Signal called in Movable class in constructor.
+void MainWindow::effectAdded()
+{
+    //TODO Add effect to chain
+    qDebug() << "Effect added.";
+}
+
+///
+/// \brief MainWindow::effectRemoved
+/// Slot for added "movable" effect removed. Signal called in Movable class in destructor.
+void MainWindow::effectRemoved()
+{
+    //TODO Remove effect to chain
+
+}
+
 void MainWindow::on_pushButton_pressed()
 {
     // Create new output tile
     OutputTile *outputTile = new OutputTile(this->centralWidget());
-
     //Probably want to move "adding to central widget" and placement actions here rather than in the class.
 
-
     outputTile->updateList(QAudioDeviceInfo::availableDevices(QAudio::AudioInput));
-
-
 }
 
 
@@ -226,6 +266,5 @@ void MainWindow::on_pushButton_2_pressed()
     InputTile *inputTile = new InputTile(this->centralWidget());
 
     //Probably want to move "adding to central widget" and placement actions here rather than in the class.
-
     inputTile->updateList(QAudioDeviceInfo::availableDevices(QAudio::AudioInput));
 }

@@ -1,5 +1,6 @@
 #include "outputtile.h"
 #include <QDebug>
+#include <mainwindow.h>
 
 OutputTile::OutputTile(QWidget *parentWindow) : Movable(parentWindow)
 {
@@ -10,6 +11,13 @@ OutputTile::OutputTile(QWidget *parentWindow) : Movable(parentWindow)
     layout->addWidget(test);
     layout->addWidget(outputSelect);
     QList<QAudioDeviceInfo> list;
+
+    QObject::connect(this, SIGNAL(&OutputTile::effectAdded),
+                        parentWindow, SLOT(&MainWindow::effectAdded));
+
+
+    output = Effect(output = true);
+    effectAdded(output);
 }
 
 void OutputTile::updateList(const QList<QAudioDeviceInfo> newList){
@@ -31,4 +39,8 @@ void OutputTile::updateList(const QList<QAudioDeviceInfo> newList){
     if (!list.isEmpty()){
         outputSelect->show();
     }
+}
+
+Effect OutputTile::getOutput(){
+    return output;
 }

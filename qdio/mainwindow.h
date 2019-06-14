@@ -42,6 +42,8 @@ private:
 #endif
     Devices devices;
 
+    QBoxLayout mainLayout;
+
     Ui::MainWindow *ui;
     void setupMenuBar();
     void setupAudio();
@@ -60,6 +62,8 @@ private:
     int outSelectIndex;
     int inSelectIndex;
 
+    QList<Effect>* EffectsChain; // Single chain of effects.
+
     QAudioInput* audioIn;
     QAudioOutput* audioOut;
     QAudioFormat format;
@@ -67,8 +71,6 @@ private:
     EffectBuffer buffer;
 
     QWidget* pressedChild = 0;
-
-
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -81,6 +83,9 @@ protected:
 
 
 private slots:
+    void effectAdded();
+    void effectRemoved();
+
     void on_inputdevices_currentIndexChanged(int index);
     void on_streamButton_clicked();
     void on_outputdevices_currentIndexChanged(int index);

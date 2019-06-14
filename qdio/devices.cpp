@@ -1,6 +1,6 @@
 #include "devices.h"
 //test bigpenis
-
+// l a r g g   p e n i s
 
 
 //"settings" unimplemented
