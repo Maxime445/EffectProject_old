@@ -77,7 +77,6 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     bool dragAndDroppable(QMouseEvent *event);
-    bool DragAndDrop(QMouseEvent *event);
     bool dragging = false;
     QPoint pressedLocation;
 

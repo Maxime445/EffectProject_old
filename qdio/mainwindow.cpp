@@ -196,7 +196,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
 
 
 void MainWindow::mouseMoveEvent(QMouseEvent* event) {
-    if (dragging) pressedChild->move(event->pos() + pressedLocation);
+    if (pressedChild != nullptr) pressedChild->move(event->pos() + pressedLocation);
 }
 
 
@@ -216,8 +216,10 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
 bool MainWindow::dragAndDroppable(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton){
-        if (childAt(event->pos())->objectName() == "centralWidget"){
-            qDebug() << "Central Widget selected.";
+        QString widgetSelected = childAt(event->pos())->objectName();
+        if (widgetSelected == "centralWidget" ||
+                widgetSelected == "horizontalLayoutWidget"){
+            qDebug() << "Filtered drag event for " << widgetSelected << ".";
             dragging = false;
             return 0;
         }
@@ -230,22 +232,6 @@ bool MainWindow::dragAndDroppable(QMouseEvent *event)
     }
 }
 
-//attempt to prevent the horizontal widget within the recording section from being draggable
-bool MainWindow::DragAndDrop(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton){
-        if (childAt(event->pos())->objectName() == "horizontalLayoutWidget"){
-            qDebug() << "horizontal Layout Widget selected.";
-            dragging = false;
-            return 0;
-        }
-        dragging = true;
-        return 1;
-    } else {
-        dragging = false;
-        return 0;
-    }
-}
 ///
 /// \brief MainWindow::effectAdded
 /// Slot for added "movable" effect created. Signal called in Movable class in constructor.
