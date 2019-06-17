@@ -187,17 +187,21 @@ void MainWindow::testCode()
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
-    if (dragAndDroppable(event)) {
+    if (dragAndDroppable(event))
+        if  (childAt(event->pos())->objectName() == "horizontalLayoutWidget") {dragging = false;}
+    {
         pressedChild = childAt(event->pos()); //TODO add filter for selected child widget
         pressedLocation = pressedChild->pos() - event->pos();
         qDebug() << "Mouse press: " << pressedChild->objectName();
     }
+
 };
 
 
 void MainWindow::mouseMoveEvent(QMouseEvent* event) {
-    if (dragging) pressedChild->move(event->pos() + pressedLocation);
+     if (dragging) pressedChild->move(event->pos() + pressedLocation);
 }
+
 
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
@@ -230,22 +234,6 @@ bool MainWindow::dragAndDroppable(QMouseEvent *event)
     }
 }
 
-//attempt to prevent the horizontal widget within the recording section from being draggable
-bool MainWindow::DragAndDrop(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton){
-        if (childAt(event->pos())->objectName() == "horizontalLayoutWidget"){
-            qDebug() << "horizontal Layout Widget selected.";
-            dragging = false;
-            return 0;
-        }
-        dragging = true;
-        return 1;
-    } else {
-        dragging = false;
-        return 0;
-    }
-}
 ///
 /// \brief MainWindow::effectAdded
 /// Slot for added "movable" effect created. Signal called in Movable class in constructor.
@@ -284,3 +272,5 @@ void MainWindow::on_pushButton_2_pressed()
     //Probably want to move "adding to central widget" and placement actions here rather than in the class.
     inputTile->updateList(QAudioDeviceInfo::availableDevices(QAudio::AudioInput));
 }
+
+
