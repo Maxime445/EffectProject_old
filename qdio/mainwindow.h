@@ -9,7 +9,7 @@
 #include <QAudioOutput>
 #include <QSettings>
 #include <QMouseEvent>
-
+#include <QSizePolicy>
 
 #include "devices.h"
 #include "effectbuffer.h"
@@ -72,6 +72,7 @@ private:
 
     QWidget* pressedChild = 0;
 
+  
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;

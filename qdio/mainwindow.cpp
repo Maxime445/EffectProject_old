@@ -272,5 +272,3 @@ void MainWindow::on_pushButton_2_pressed()
     //Probably want to move "adding to central widget" and placement actions here rather than in the class.
     inputTile->updateList(QAudioDeviceInfo::availableDevices(QAudio::AudioInput));
 }
-
-
