@@ -187,17 +187,25 @@ void MainWindow::testCode()
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
-    if (dragAndDroppable(event)) {
+    if (dragAndDroppable(event))
+        if  (childAt(event->pos())->objectName() == "horizontalLayoutWidget") {dragging = false;}
+    {
         pressedChild = childAt(event->pos()); //TODO add filter for selected child widget
         pressedLocation = pressedChild->pos() - event->pos();
         qDebug() << "Mouse press: " << pressedChild->objectName();
     }
+
 };
 
 
 void MainWindow::mouseMoveEvent(QMouseEvent* event) {
+<<<<<<< HEAD
     if (pressedChild != nullptr) pressedChild->move(event->pos() + pressedLocation);
+=======
+     if (dragging) pressedChild->move(event->pos() + pressedLocation);
+>>>>>>> origin/alpha
 }
+
 
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
