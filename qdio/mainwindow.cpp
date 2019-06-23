@@ -199,11 +199,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
 
 
 void MainWindow::mouseMoveEvent(QMouseEvent* event) {
-<<<<<<< HEAD
     if (pressedChild != nullptr) pressedChild->move(event->pos() + pressedLocation);
-=======
-     if (dragging) pressedChild->move(event->pos() + pressedLocation);
->>>>>>> origin/alpha
 }
 
 
@@ -258,18 +254,22 @@ void MainWindow::effectRemoved()
 
 }
 
-void MainWindow::on_pushButton_pressed()
+void MainWindow::on_outputTileButton_pressed()
 {
     // Create new output tile
     OutputTile *outputTile = new OutputTile(this->centralWidget());
     //Probably want to move "adding to central widget" and placement actions here rather than in the class.
 
+    //TODO QAction outputTile
+    //Define QAction to add input
+    QAction* outputTileAction = new QAction();
+    outputTile->addAction(outputTileAction);
+
     outputTile->updateList(QAudioDeviceInfo::availableDevices(QAudio::AudioInput));
 }
 
 
-
-void MainWindow::on_pushButton_2_pressed()
+void MainWindow::on_inputTileButton_pressed()
 {
     //Code replication from pushButton 1. (OutputTile)
     // Create new output tile

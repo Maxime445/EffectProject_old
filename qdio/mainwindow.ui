@@ -99,7 +99,7 @@
     <property name="title">
      <string>Effect Creator Toolbox</string>
     </property>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="outputTileButton">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -112,7 +112,7 @@
       <string>Create Input</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="inputTileButton">
      <property name="geometry">
       <rect>
        <x>10</x>

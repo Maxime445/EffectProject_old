@@ -89,8 +89,8 @@ private slots:
     void on_inputdevices_currentIndexChanged(int index);
     void on_streamButton_clicked();
     void on_outputdevices_currentIndexChanged(int index);
-    void on_pushButton_pressed();
-    void on_pushButton_2_pressed();
+    void on_outputTileButton_pressed();
+    void on_inputTileButton_pressed();
 };
 
 #endif // MAINWINDOW_H
